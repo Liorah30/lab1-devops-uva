@@ -1,5 +1,4 @@
 import os
-import tempfile
 from functools import reduce
 
 from pymongo import MongoClient
@@ -21,10 +20,12 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 def add(student=None):
+    logging.info("We are here")
     try:
         student_exists = students_collection.find_one(
             {"first_name": student.first_name, "last_name": student.last_name}
         )
+        logging.info("made it here")
 
         if student_exists is not None:
             return "already exists", 409
