@@ -27,7 +27,6 @@ jobs:
           echo "No running container found with name $IMAGE_NAME"
             exit 1
         fi
-    
     - name: "Check files existence"
       uses: andstor/file-existence-action@v2
       with:

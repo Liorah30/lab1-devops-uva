@@ -12,7 +12,10 @@ students_collection = db["students"]
 def add(student=None):
 
     student_exists = students_collection.find_one(
-        {"first_name": student.first_name, "last_name": student.last_name}
+        {
+        "first_name": student.first_name, 
+        "last_name": student.last_name 
+        }
     )
 
     if student_exists :
@@ -21,7 +24,6 @@ def add(student=None):
     student_data = student.to_dict()
     insert_result = students_collection.insert_one(student_data)
     
-    print(student)
     return str(insert_result.inserted_id)
 
 def get_by_id(student_id=None):
@@ -30,8 +32,7 @@ def get_by_id(student_id=None):
         if not student:
             return 'not found', 404
         student['student_id'] = str(student["_id"])
-        del student['_id']  # Remove MongoDB's default _id field
-        print(student)
+
         return student
     except Exception:
         return 'invalid Id format', 400
