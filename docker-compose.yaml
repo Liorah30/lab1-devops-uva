@@ -1,5 +1,15 @@
 version: '3'
 services:
+  mongo:
+    restart: unless-stopped
+    image: mongo:4
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   student_service:
     build:
       context: .
@@ -13,13 +23,3 @@ services:
     ports:
       - "8080:8080"
 
-  mongo:
-    restart: unless-stopped
-    image: mongo:4
-    ports:
-      - "27017:27017"
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
