@@ -10,11 +10,6 @@ client = MongoClient(os.getenv("MONGO_URI"))
 db = client[os.getenv("DB_NAME")]
 students_collection = db["students"]
 
-import logging
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-
 def add(student=None):
     try:
         student_exists = students_collection.find_one(
@@ -29,7 +24,6 @@ def add(student=None):
 
         return str(insert_result.inserted_id)
     except Exception as e:
-        logging.error(f"Error adding student: {e}")
         return "Internal server error", 500
 
 def get_by_id(student_id=None):
