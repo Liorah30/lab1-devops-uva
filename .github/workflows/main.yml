@@ -13,9 +13,10 @@ jobs:
     - name: Build docker
       run: |
         docker build . -t $REPO_NAME/$IMAGE_NAME
-    - name: run docker
+    - name: Run Docker
       run: |
-        docker run -d -p 8080:8080 $REPO_NAME/$IMAGE_NAME:latest 
+        docker run --rm -p 8080:8080 $REPO_NAME/$IMAGE_NAME:latest || (docker logs $!)
+      
 
     - name: "Check files existence"
       uses: andstor/file-existence-action@v2
