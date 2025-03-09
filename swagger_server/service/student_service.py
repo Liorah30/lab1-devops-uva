@@ -6,9 +6,10 @@ from pymongo import MongoClient
 import logging
 
 
-client = MongoClient(os.getenv("MONGO_URI"))
-db = client[os.getenv("DB_NAME")]
-students_collection = db["students"]
+uri = "mongodb://mongo:27017/"
+client = MongoClient(uri)
+database = client["students_db"]
+students_collection = database["students_collection"]
 
 def add(student=None):
     try:

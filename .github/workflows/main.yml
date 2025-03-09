@@ -28,7 +28,6 @@ jobs:
             exit 1
         fi
     
-
     - name: "Check files existence"
       uses: andstor/file-existence-action@v2
       with:
