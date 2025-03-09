@@ -11,6 +11,9 @@ COPY . /usr/src/app
 
 EXPOSE 8080
 
+ENV MONGO_URI=mongodb://mongo:27017
+ENV DB_NAME=student_db
+
 ENTRYPOINT ["python3"]
 
 CMD ["-m", "swagger_server"]

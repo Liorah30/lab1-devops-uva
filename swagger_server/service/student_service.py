@@ -5,11 +5,9 @@ from functools import reduce
 from pymongo import MongoClient
 from bson import ObjectId
 
-
-uri = "mongodb://mongo:27017/"
-client = MongoClient(uri)
-database = client["students_db"]
-students_collection = database["students_collection"]
+client = MongoClient(os.getenv("MONGO_URI"))
+db = client[os.getenv("DB_NAME")]
+students_collection = db["students"]
 
 def add(student=None):
     try:

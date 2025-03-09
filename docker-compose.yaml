@@ -1,7 +1,9 @@
 version: '3'
 services:
   student_service:
-    image: liorah30/student_service
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
       - mongo
