@@ -3,7 +3,7 @@ import tempfile
 from functools import reduce
 
 from pymongo import MongoClient
-import logging
+from bson import ObjectId
 
 
 uri = "mongodb://mongo:27017/"
@@ -28,16 +28,16 @@ def add(student=None):
         return "Internal server error", 500
 
 def get_by_id(student_id=None):
-    student = students_collection.find_one({"_id": student_id})
+    student = students_collection.find_one({"_id": objectId(student_id)})
     if not student:
         return 'not found', 404
-    student['student_id'] = student["_id"]
+    student['student_id'] = str(student["_id"])
 
     return student
 
 
 def delete(student_id=None):
-    result = students_collection.delete_one({"_id": student_id})
+    result = students_collection.delete_one({"_id": objectId(student_id)})
     if result.deleted_count == 0:
         return 'not found', 404
 
