@@ -14,8 +14,7 @@ def add(student=None):
     student_exists = students_collection.find_one(
         {
         "first_name": student.first_name, 
-        "last_name": student.last_name 
-        }
+        "last_name": student.last_name }
     )
 
     if student_exists :
@@ -32,7 +31,7 @@ def get_by_id(student_id=None):
         if not student:
             return 'not found', 404
         student['student_id'] = str(student["_id"])
-
+        del student['_id'] #removing the mongodb's default id because it is not needed and creates error
         return student
     except Exception:
         return 'invalid Id format', 400
