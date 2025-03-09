@@ -1,27 +1,36 @@
-
 import os
-import uuid
+import tempfile
+from functools import reduce
+
 from pymongo import MongoClient
+import logging
+
 
 client = MongoClient(os.getenv("MONGO_URI"))
-db = client["student_db"]
+db = client[os.getenv("DB_NAME")]
 students_collection = db["students"]
 
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+
 def add(student=None):
-    student_exists = students_collection.find_one(
-        {"first_name": student.first_name, "last_name": student.last_name}
-    )
+    try:
+        student_exists = students_collection.find_one(
+            {"first_name": student.first_name, "last_name": student.last_name}
+        )
 
-    if student_exists is not None:
-        return "duplicate student", 409
+        if student_exists is not None:
+            return "already exists", 409
 
-    new_id = str(uuid.uuid4())
-    student_data = dict(student.to_dict())
-    student_data["_id"] = new_id
-    insert_result = students_collection.insert_one(student_data)
+        student_data = dict(student.to_dict())
+        insert_result = students_collection.insert_one(student_data)
 
-    return uuid.UUID(insert_result.inserted_id)
-
+        return str(insert_result.inserted_id)
+    except Exception as e:
+        logging.error(f"Error adding student: {e}")
+        return "Internal server error", 500
 
 def get_by_id(student_id=None):
     student = students_collection.find_one({"_id": student_id})
@@ -37,4 +46,4 @@ def delete(student_id=None):
     if result.deleted_count == 0:
         return 'not found', 404
 
-    return uuid.UUID(student_id)
+    return str(student_id)
