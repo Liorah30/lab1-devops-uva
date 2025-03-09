@@ -28,7 +28,7 @@ def add(student=None):
         return "Internal server error", 500
 
 def get_by_id(student_id=None):
-    student = students_collection.find_one({"_id": objectId(student_id)})
+    student = students_collection.find_one({"_id": ObjectId(student_id)})
     if not student:
         return 'not found', 404
     student['student_id'] = str(student["_id"])
@@ -37,7 +37,7 @@ def get_by_id(student_id=None):
 
 
 def delete(student_id=None):
-    result = students_collection.delete_one({"_id": objectId(student_id)})
+    result = students_collection.delete_one({"_id": ObjectId(student_id)})
     if result.deleted_count == 0:
         return 'not found', 404
 
