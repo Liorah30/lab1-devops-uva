@@ -9,6 +9,7 @@ services:
       - mongo
     environment:
       MONGO_URI: mongodb://mongo:27017
+      DB_NAME: student_db
     ports:
       - "8080:8080"
 
