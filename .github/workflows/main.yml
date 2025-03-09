@@ -19,8 +19,13 @@ jobs:
           docker ps && sleep 5
     - name: Output container logs
       run: |
-        CONTAINER_ID=$(docker ps -q -f name=$IMAGE_NAME) && \
-            docker logs $CONTAINER_ID
+         CONTAINER_ID=$(docker ps -q -f name=$IMAGE_NAME)
+         if [ -n "$CONTAINER_ID" ]; then
+          docker logs "$CONTAINER_ID"
+         else
+          echo "No running container found with name $IMAGE_NAME"
+          exit 1
+         fi
 
     - name: "Check files existence"
       uses: andstor/file-existence-action@v2
