@@ -27,7 +27,6 @@ jobs:
           echo "No running container found with name $IMAGE_NAME"
             exit 1
         fi
-    
     - name: "Check files existence"
       uses: andstor/file-existence-action@v2
       with:
@@ -43,14 +42,6 @@ jobs:
         reporters: cli
         bail: true
 
-    - name: Output Newman Test Results
-      run: |
-          if [ -f newman_output.json ]; then
-            cat newman_output.json  # Output the test results to the workflow logs
-          else
-            echo "Newman output file not found."
-            exit 1
-          fi
     - name: Check if we failed
       id: fail-check
       shell: bash
