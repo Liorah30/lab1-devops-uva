@@ -17,13 +17,15 @@ def add(student=None):
             {"first_name": student.first_name, "last_name": student.last_name}
         )
 
-        if student_exists is not None:
+        if student_exists :
             return "already exists", 409
 
-        student_data = dict(student.to_dict())
+        student_data = student.to_dict()
         insert_result = students_collection.insert_one(student_data)
-
-        return str(insert_result.inserted_id)
+        
+        student.student_id = str(insert_result.inserted_id)
+        
+        return student.student_id
     except Exception as e:
         return "Internal server error", 500
 
