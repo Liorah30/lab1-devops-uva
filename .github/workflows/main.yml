@@ -23,16 +23,7 @@ jobs:
       with:
         files: "postman/collection.json,postman/environment.json"
         fail: true
-    - name: Wait for MongoDB
-      run: |
-        for i in {1..30}; do
-          if curl -s mongodb://mongo:27017; then
-            echo "MongoDB is up!"
-            break
-          fi
-          echo "Waiting for MongoDB..."
-          sleep 2
-        done
+
     - name: Run API Tests
       id: run-newman
       uses: anthonyvscode/newman-action@master
