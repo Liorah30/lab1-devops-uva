@@ -19,7 +19,8 @@ jobs:
           docker ps && sleep 5
     - name: Output container logs
       run: |
-        docker logs $REPO_NAME/$IMAGE_NAME:latest
+        CONTAINER_ID=$(docker ps -q -f name=$IMAGE_NAME) && \
+            docker logs $CONTAINER_ID
 
     - name: "Check files existence"
       uses: andstor/file-existence-action@v2
